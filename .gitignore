@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+coverage/
+.aws-config.json
+awsconfig
+/emails/dist
+/public_gen
+/tmp
+vendor/phantomjs/phantomjs

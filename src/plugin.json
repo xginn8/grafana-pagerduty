@@ -1,0 +1,35 @@
+{
+  "name": "Pagerduty",
+  "id": "grafana-pagerduty",
+  "type": "datasource",
+
+  "partials": {
+    "config": "public/app/plugins/datasource/grafana-pagerduty/partials/config.html"
+  },
+
+  "metrics": false,
+  "annotations": true,
+
+  "info": {
+    "description": "Pagerduty datasource",
+    "author": {
+      "name": "xginn8",
+      "url": "https://github.com/xginn8"
+    },
+    "logos": {
+      "small": "img/pagerduty_logo.png",
+      "large": "img/pagerduty_logo.png"
+    },
+    "links": [
+      {"name": "GitHub", "url": "https://github.com/xginn8/grafana-pagerduty"},
+      {"name": "MIT License", "url": "https://github.com/xginn8/grafana-pagerduty/blob/master/LICENSE"}
+    ],
+    "version": "0.0.1",
+    "updated": "2018-04-15"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "5.x.x",
+    "plugins": [ ]
+  }
+}
