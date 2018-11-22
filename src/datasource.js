@@ -39,23 +39,23 @@ export class GenericDatasource {
             continue;
         }
         var created_at = Date.parse(d.created_at);
-        var incident = { annotation: 
-            { name: d.id, 
-              enabled: true, 
+        var incident = { annotation:
+            { name: d.id,
+              enabled: true,
               datasource: "grafana-pagerduty"
-            }, 
+            },
             title: d.title,
-            time: created_at, 
-            tags: [ d.type, d.incident_key, d.incident_number, d.status, d.service.id ], 
+            time: created_at,
+            tags: [ d.type, d.incident_key, d.incident_number, d.status, d.service.id ],
             text: d.summary
-        }; 
+        };
         result.push(incident);
     }
     return result;
   }
 
   annotationQuery(options) {
-    var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
+    // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
 
     var queryString = "";
 

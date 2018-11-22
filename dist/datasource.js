@@ -95,7 +95,7 @@ System.register(['lodash'], function (_export, _context) {
           value: function annotationQuery(options) {
             var _this = this;
 
-            var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
+            // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
 
             var queryString = "";
 
