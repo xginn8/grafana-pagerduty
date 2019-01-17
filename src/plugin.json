@@ -24,9 +24,20 @@
       {"name": "GitHub", "url": "https://github.com/xginn8/grafana-pagerduty"},
       {"name": "MIT License", "url": "https://github.com/xginn8/grafana-pagerduty/blob/master/LICENSE"}
     ],
-    "version": "0.0.7",
-    "updated": "2019-01-17"
+    "version": "0.1.0",
+    "updated": "2019-01-18"
   },
+
+  "routes": [
+    {
+      "path": "pagerduty",
+      "url": "https://api.pagerduty.com",
+      "headers": [
+        { "name": "Authorization", "content": "Token token={{.SecureJsonData.pagerdutyApiKey}}" },
+        { "name": "Accept", "content": "application/vnd.pagerduty+json;version=2" }
+      ]
+    }
+  ],
 
   "dependencies": {
     "grafanaVersion": "5.x.x",

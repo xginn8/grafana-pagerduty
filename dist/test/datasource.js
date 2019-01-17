@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,7 +7,7 @@ exports.GenericDatasource = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _lodash = require('lodash');
+var _lodash = require("lodash");
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -20,31 +20,38 @@ var GenericDatasource = exports.GenericDatasource = function () {
     _classCallCheck(this, GenericDatasource);
 
     this.type = instanceSettings.type;
-    this.url = 'https://api.pagerduty.com/incidents?time_zone=UTC';
+    this.url = "/api/datasources/proxy/" + instanceSettings.id + "/pagerduty/incidents";
     this.name = instanceSettings.name;
     this.q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
-    this.headers = { 'Accept': 'application/vnd.pagerduty+json;version=2' };
-    this.headers['Authorization'] = 'Token token=' + instanceSettings.jsonData.apiKey;
   }
 
   _createClass(GenericDatasource, [{
-    key: 'testDatasource',
+    key: "testDatasource",
     value: function testDatasource() {
       return this.doRequest({
         url: this.url,
-        method: 'GET'
+        method: "GET"
       }).then(function (response) {
         if (response.status === 200) {
-          return { status: "success", message: "Data source is working", title: "Success" };
+          return {
+            status: "success",
+            message: "Data source is working",
+            title: "Success"
+          };
         }
+      }).catch(function (response) {
+        return {
+          status: "error",
+          message: "Data source is not working (code: " + response.status + ")",
+          title: "Error"
+        };
       });
     }
   }, {
-    key: 'transformResponse',
+    key: "transformResponse",
     value: function transformResponse(response, options) {
-
       var result = [];
       for (var i = 0; i < response.data.incidents.length; i++) {
         var d = response.data.incidents[i];
@@ -82,11 +89,9 @@ var GenericDatasource = exports.GenericDatasource = function () {
       return result;
     }
   }, {
-    key: 'annotationQuery',
+    key: "annotationQuery",
     value: function annotationQuery(options) {
       var _this = this;
-
-      // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
 
       var queryString = "";
 
@@ -94,18 +99,18 @@ var GenericDatasource = exports.GenericDatasource = function () {
       queryString += "&until=" + new Date(options.range.to).toISOString();
 
       return this.doRequest({
-        url: this.url + queryString,
+        url: this.url + "?time_zone=UTC" + queryString,
         method: 'GET'
       }).then(function (response) {
         var result = _this.transformResponse(response, options);
         return result;
+      }).catch(function (response) {
+        return [];
       });
     }
   }, {
-    key: 'doRequest',
+    key: "doRequest",
     value: function doRequest(options) {
-      options.headers = this.headers;
-
       return this.backendSrv.datasourceRequest(options);
     }
   }]);

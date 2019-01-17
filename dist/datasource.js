@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-System.register(['lodash'], function (_export, _context) {
+System.register(["lodash"], function (_export, _context) {
   "use strict";
 
   var _, _createClass, GenericDatasource;
@@ -34,36 +34,43 @@ System.register(['lodash'], function (_export, _context) {
         };
       }();
 
-      _export('GenericDatasource', GenericDatasource = function () {
+      _export("GenericDatasource", GenericDatasource = function () {
         function GenericDatasource(instanceSettings, $q, backendSrv, templateSrv) {
           _classCallCheck(this, GenericDatasource);
 
           this.type = instanceSettings.type;
-          this.url = 'https://api.pagerduty.com/incidents?time_zone=UTC';
+          this.url = "/api/datasources/proxy/" + instanceSettings.id + "/pagerduty/incidents";
           this.name = instanceSettings.name;
           this.q = $q;
           this.backendSrv = backendSrv;
           this.templateSrv = templateSrv;
-          this.headers = { 'Accept': 'application/vnd.pagerduty+json;version=2' };
-          this.headers['Authorization'] = 'Token token=' + instanceSettings.jsonData.apiKey;
         }
 
         _createClass(GenericDatasource, [{
-          key: 'testDatasource',
+          key: "testDatasource",
           value: function testDatasource() {
             return this.doRequest({
               url: this.url,
-              method: 'GET'
+              method: "GET"
             }).then(function (response) {
               if (response.status === 200) {
-                return { status: "success", message: "Data source is working", title: "Success" };
+                return {
+                  status: "success",
+                  message: "Data source is working",
+                  title: "Success"
+                };
               }
+            }).catch(function (response) {
+              return {
+                status: "error",
+                message: "Data source is not working (code: " + response.status + ")",
+                title: "Error"
+              };
             });
           }
         }, {
-          key: 'transformResponse',
+          key: "transformResponse",
           value: function transformResponse(response, options) {
-
             var result = [];
             for (var i = 0; i < response.data.incidents.length; i++) {
               var d = response.data.incidents[i];
@@ -101,11 +108,9 @@ System.register(['lodash'], function (_export, _context) {
             return result;
           }
         }, {
-          key: 'annotationQuery',
+          key: "annotationQuery",
           value: function annotationQuery(options) {
             var _this = this;
-
-            // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
 
             var queryString = "";
 
@@ -113,18 +118,18 @@ System.register(['lodash'], function (_export, _context) {
             queryString += "&until=" + new Date(options.range.to).toISOString();
 
             return this.doRequest({
-              url: this.url + queryString,
+              url: this.url + "?time_zone=UTC" + queryString,
               method: 'GET'
             }).then(function (response) {
               var result = _this.transformResponse(response, options);
               return result;
+            }).catch(function (response) {
+              return [];
             });
           }
         }, {
-          key: 'doRequest',
+          key: "doRequest",
           value: function doRequest(options) {
-            options.headers = this.headers;
-
             return this.backendSrv.datasourceRequest(options);
           }
         }]);
@@ -132,7 +137,7 @@ System.register(['lodash'], function (_export, _context) {
         return GenericDatasource;
       }());
 
-      _export('GenericDatasource', GenericDatasource);
+      _export("GenericDatasource", GenericDatasource);
     }
   };
 });

@@ -4,28 +4,35 @@ export class GenericDatasource {
 
   constructor(instanceSettings, $q, backendSrv, templateSrv) {
     this.type = instanceSettings.type;
-    this.url = 'https://api.pagerduty.com/incidents?time_zone=UTC';
+    this.url = `/api/datasources/proxy/${instanceSettings.id}/pagerduty/incidents`;
     this.name = instanceSettings.name;
     this.q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
-    this.headers = {'Accept': 'application/vnd.pagerduty+json;version=2'};
-    this.headers['Authorization'] = 'Token token=' + instanceSettings.jsonData.apiKey;
   }
 
   testDatasource() {
     return this.doRequest({
       url: this.url,
-      method: 'GET',
+      method: "GET",
     }).then(response => {
       if (response.status === 200) {
-        return { status: "success", message: "Data source is working", title: "Success" };
+        return { 
+            status: "success", 
+            message: "Data source is working",
+            title: "Success" 
+        };
       }
+    }).catch(response => {
+      return { 
+          status: "error", 
+          message: `Data source is not working (code: ${response.status})`,
+          title: "Error" 
+      };
     });
   }
 
   transformResponse(response, options) {
-
     var result = [];
     for(var i = 0; i < response.data.incidents.length; i++){
         var d = response.data.incidents[i];
@@ -65,25 +72,23 @@ export class GenericDatasource {
   }
 
   annotationQuery(options) {
-    // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
-
     var queryString = "";
 
     queryString += "&since=" + new Date(options.range.from).toISOString();
     queryString += "&until=" + new Date(options.range.to).toISOString();
 
     return this.doRequest({
-      url: this.url + queryString,
+      url: `${this.url}?time_zone=UTC${queryString}`,
       method: 'GET'
     }).then(response => {
         var result = this.transformResponse(response, options);
         return result;
+    }).catch(response => {
+        return [];
     });
   }
 
   doRequest(options) {
-    options.headers = this.headers;
-
     return this.backendSrv.datasourceRequest(options);
   }
 
