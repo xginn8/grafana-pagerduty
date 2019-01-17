@@ -77,15 +77,25 @@ System.register(['lodash'], function (_export, _context) {
                 continue;
               }
               var created_at = Date.parse(d.created_at);
+
+              var annotation_end = d.status === 'resolved' ? Date.parse(d.last_status_change_at) : Date.now();
+
               var incident = { annotation: { name: d.id,
                   enabled: true,
                   datasource: "grafana-pagerduty"
                 },
                 title: d.title,
                 time: created_at,
+                isRegion: true,
+                timeEnd: annotation_end,
                 tags: [d.type, d.incident_key, d.incident_number, d.status, d.service.id],
-                text: d.summary
+                text: '<a target="_blank" href="' + d.html_url + '">PagerDuty incident page</a>'
               };
+
+              incident.tags = incident.tags.filter(function (el) {
+                return el != null;
+              });
+
               result.push(incident);
             }
             return result;
@@ -95,7 +105,7 @@ System.register(['lodash'], function (_export, _context) {
           value: function annotationQuery(options) {
             var _this = this;
 
-            var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
+            // var query = JSON.parse(this.templateSrv.replace(options.annotation.query, {}, 'glob'));
 
             var queryString = "";
 
