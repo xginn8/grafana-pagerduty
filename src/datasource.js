@@ -17,17 +17,17 @@ export class GenericDatasource {
       method: "GET",
     }).then(response => {
       if (response.status === 200) {
-        return { 
-            status: "success", 
+        return {
+            status: "success",
             message: "Data source is working",
-            title: "Success" 
+            title: "Success"
         };
       }
     }).catch(response => {
-      return { 
-          status: "error", 
+      return {
+          status: "error",
           message: `Data source is not working (code: ${response.status})`,
-          title: "Error" 
+          title: "Error"
       };
     });
   }
@@ -73,19 +73,29 @@ export class GenericDatasource {
 
   annotationQuery(options) {
     var queryString = "";
+    var limit = 100;
 
     queryString += "&since=" + new Date(options.range.from).toISOString();
     queryString += "&until=" + new Date(options.range.to).toISOString();
+    queryString += `&limit=${limit}`;
 
-    return this.doRequest({
-      url: `${this.url}?time_zone=UTC${queryString}`,
-      method: 'GET'
-    }).then(response => {
-        var result = this.transformResponse(response, options);
-        return result;
-    }).catch(response => {
-        return [];
-    });
+    return this.getEvents([], queryString, 0, limit, options);
+  }
+
+  getEvents(allResults, queryString, offset, limit, options) {
+      queryString += `&offset=${offset}`;
+      return this.doRequest({
+        url: `${this.url}?time_zone=UTC${queryString}`,
+        method: 'GET'
+      }).then(response => {
+          var result = this.transformResponse(response, options);
+          var newResults = allResults.concat(result);
+          if (response.data.more) {
+              return this.getEvents(newResults, queryString, limit + offset, limit, options);
+          } else {
+              return newResults;
+          }
+      });
   }
 
   doRequest(options) {

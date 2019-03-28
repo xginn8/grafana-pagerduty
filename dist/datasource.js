@@ -110,21 +110,32 @@ System.register(["lodash"], function (_export, _context) {
         }, {
           key: "annotationQuery",
           value: function annotationQuery(options) {
-            var _this = this;
-
             var queryString = "";
+            var limit = 100;
 
             queryString += "&since=" + new Date(options.range.from).toISOString();
             queryString += "&until=" + new Date(options.range.to).toISOString();
+            queryString += "&limit=" + limit;
 
+            return this.getEvents([], queryString, 0, limit, options);
+          }
+        }, {
+          key: "getEvents",
+          value: function getEvents(allResults, queryString, offset, limit, options) {
+            var _this = this;
+
+            queryString += "&offset=" + offset;
             return this.doRequest({
               url: this.url + "?time_zone=UTC" + queryString,
               method: 'GET'
             }).then(function (response) {
               var result = _this.transformResponse(response, options);
-              return result;
-            }).catch(function (response) {
-              return [];
+              var newResults = allResults.concat(result);
+              if (response.data.more) {
+                return _this.getEvents(newResults, queryString, limit + offset, limit, options);
+              } else {
+                return newResults;
+              }
             });
           }
         }, {
