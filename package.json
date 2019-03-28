@@ -3,7 +3,7 @@
   "private": true,
   "metrics": true,
   "annotations": true,
-  "version": "0.0.1",
+  "version": "0.2.1",
   "description": "Pagerduty Datasource for Grafana",
   "main": "index.js",
   "scripts": {

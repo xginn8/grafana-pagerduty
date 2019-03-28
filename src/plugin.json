@@ -24,8 +24,8 @@
       {"name": "GitHub", "url": "https://github.com/xginn8/grafana-pagerduty"},
       {"name": "MIT License", "url": "https://github.com/xginn8/grafana-pagerduty/blob/master/LICENSE"}
     ],
-    "version": "0.2.0",
-    "updated": "2019-03-27"
+    "version": "0.2.1",
+    "updated": "2019-03-28"
   },
 
   "routes": [

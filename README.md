@@ -4,7 +4,7 @@ Annotations-only datasource for PagerDuty events.
 
 ## To configure:
 
-Create a v2 PagerDuty API key, following the instructions [here](https://support.pagerduty.com/docs/services-and-integrations)
+Create a v2 PagerDuty API key, following the instructions [here](https://support.pagerduty.com/docs/using-the-api)
 
 Paste the key into the `API Key` configuration field for the PagerDuty datasource.
 
