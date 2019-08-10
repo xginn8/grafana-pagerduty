@@ -1,4 +1,4 @@
-# PagerDuty Datasource for Grafana
+# PagerDuty Annotations-only Datasource for Grafana
 
 Annotations-only datasource for PagerDuty events.
 
