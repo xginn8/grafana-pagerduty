@@ -7,3 +7,4 @@ awsconfig
 /public_gen
 /tmp
 vendor/phantomjs/phantomjs
+API_KEY
