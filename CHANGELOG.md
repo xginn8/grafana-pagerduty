@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
+## [v0.3.0] - 2020-04-11
+### Changed
+- Convert app to typescript
+
 ## [v0.2.1] - 2019-03-27
 ### Added
 - Add CHANGELOG.md

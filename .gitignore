@@ -8,3 +8,6 @@ awsconfig
 /tmp
 vendor/phantomjs/phantomjs
 API_KEY
+dist/*
+*.js
+*.js.map
