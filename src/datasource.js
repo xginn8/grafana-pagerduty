@@ -36,15 +36,6 @@ export class GenericDatasource {
     var result = [];
     for(var i = 0; i < response.data.incidents.length; i++){
         var d = response.data.incidents[i];
-        if (options.annotation.serviceId && d.service.id != options.annotation.serviceId) {
-            continue;
-        }
-        if (options.annotation.urgency && d.urgency != options.annotation.urgency) {
-            continue;
-        }
-        if (options.annotation.status && d.status != options.annotation.status) {
-            continue;
-        }
         var created_at = Date.parse(d.created_at);
 
         var annotation_end = (d.status === 'resolved')? Date.parse(d.last_status_change_at) : Date.now();
@@ -78,6 +69,23 @@ export class GenericDatasource {
     queryString += "&since=" + new Date(options.range.from).toISOString();
     queryString += "&until=" + new Date(options.range.to).toISOString();
     queryString += `&limit=${limit}`;
+
+    if (options.annotation) {
+    
+      const annotation = options.annotation
+
+      if (annotation.serviceId) {
+        queryString += "&service_ids%5B%5D=" + annotation.serviceId;
+      }
+
+      if (annotation.urgency) {
+        queryString += "&urgencies%5B%5D=" + annotation.urgency;
+      }
+
+      if (annotation.status) {
+        queryString += "&statuses%5B%5D=" + annotation.status;
+      }    
+    }
 
     return this.getEvents([], queryString, 0, limit, options);
   }
