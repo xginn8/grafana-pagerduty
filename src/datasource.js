@@ -49,7 +49,7 @@ export class GenericDatasource {
             time: created_at,
             isRegion: true,
             timeEnd: annotation_end,
-            tags: [ d.type, d.incident_key, d.incident_number, d.status, d.service.id ],
+            tags: [ d.type, d.incident_key, d.incident_number.toString(), d.status, d.service.id ],
             text: '<a target="_blank" href="' + d.html_url + '">PagerDuty incident page</a>',
         };
 
