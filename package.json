@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/grunt-cli/bin/grunt",
-    "test": "./node_modules/grunt-cli/bin/grunt mochaTest"
+    "test": "./node_modules/grunt-cli/bin/grunt mochaTest",
+    "sign": "grafana-toolkit plugin:sign"
   },
   "repository": {
     "type": "git",
