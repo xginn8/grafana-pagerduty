@@ -7,9 +7,11 @@
   "description": "Pagerduty Datasource for Grafana",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/grunt-cli/bin/grunt",
-    "test": "./node_modules/grunt-cli/bin/grunt mochaTest",
-    "sign": "grafana-toolkit plugin:sign"
+    "sign": "grafana-toolkit plugin:sign",
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
   },
   "repository": {
     "type": "git",
