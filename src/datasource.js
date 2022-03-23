@@ -71,11 +71,12 @@ export class GenericDatasource {
     queryString += `&limit=${limit}`;
 
     if (options.annotation) {
-    
+
       const annotation = options.annotation
 
       if (annotation.serviceId) {
-        queryString += "&service_ids%5B%5D=" + annotation.serviceId;
+        var array = annotation.serviceId.split(',');
+        queryString += "&service_ids%5B%5D=" + array.join('&service_ids%5B%5D=');
       }
 
       if (annotation.urgency) {
@@ -84,7 +85,7 @@ export class GenericDatasource {
 
       if (annotation.status) {
         queryString += "&statuses%5B%5D=" + annotation.status;
-      }    
+      }
     }
 
     return this.getEvents([], queryString, 0, limit, options);
