@@ -25,7 +25,7 @@
   "devDependencies": {
     "@grafana/toolkit": "^8.4.3",
     "chai": "~4.2.0",
-    "jsdom": "~14.0.0",
+    "jsdom": "~16.5.0",
     "prunk": "^1.3.1",
     "q": "^1.5.1"
   },
