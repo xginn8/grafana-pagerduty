@@ -23,7 +23,7 @@
     "url": "https://github.com/xginn8/grafana-pagerduty/issues"
   },
   "devDependencies": {
-    "@grafana/toolkit": "^8.4.3",
+    "@grafana/toolkit": "^8.5.20",
     "chai": "~4.2.0",
     "jsdom": "~14.0.0",
     "prunk": "^1.3.1",
